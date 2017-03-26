@@ -8,7 +8,7 @@ var fs = require('fs'),
 
 // base MvcCoreForm javascript object name, it's filename and filed definitions directory
 var sourceDir = '../src/';
-var targetDir = '../../';
+var targetDir = '../../../';
 
 // for development:
 var minimalize = true;
