@@ -1,0 +1,35 @@
+{
+  "name": "desharp-assets",
+  "version": "1.0.0",
+  "keywords": [
+    "Desharp - C# debuging library",
+    "Desharp - web and console debuging",
+    "Desharp - custom javascript assets"
+  ],
+  "description": "Build custom javascript assets for Desharp debuging library.",
+  "homepage": "https://github.com/tomFlidr/desharp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomFlidr/desharp.git"
+  },
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "Tom Flídr",
+    "email": "tomflidr@gmail.com",
+    "url": "https://github.com/tomFlidr"
+  },
+  "main": "src/dumps",
+  "scripts": {
+    "install": "node install.js"
+  },
+  "dependencies": {
+    "web-dev-server": "~1.0.5",
+    "download": "~5.0.0",
+    "find-java-home": "~0.1.4"
+  },
+  "devDependencies": {
+    "web-dev-server": "~1.0.5",
+    "download": "~5.0.0",
+    "find-java-home": "~0.1.4"
+  }
+}

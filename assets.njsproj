@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>assets</Name>
+    <RootNamespace>assets</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>739156c1-241d-4aa0-ac37-d5bb5b154910</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartWebBrowser>false</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="dev-tools\bin\compiler-help.txt" />
+    <Content Include="dev-tools\build-data.json" />
+    <Content Include="dev-tools\build.cmd" />
+    <Content Include="dev-tools\build.sh" />
+    <Content Include="install.cmd" />
+    <Content Include="install.sh" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="src\arrow-down.png" />
+    <Content Include="src\arrow-right.png" />
+    <Content Include="src\arrow-up.png" />
+    <Content Include="src\bar-exception.css" />
+    <Content Include="src\bar-window.css" />
+    <Content Include="src\bar.css" />
+    <Content Include="src\close.png" />
+    <Content Include="src\dumps.css" />
+    <Content Include="src\exception.css" />
+    <Content Include="src\logs.css" />
+    <Content Include="src\unbox.png" />
+    <Content Include="tests\dumps-min.php" />
+    <Content Include="tests\dumps.php" />
+    <Content Include="tests\logs-exception.php" />
+    <Content Include="tests\logs-info.php" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dev-tools\" />
+    <Folder Include="dev-tools\bin\" />
+    <Folder Include="dev-tools\bin\compiler\" />
+    <Folder Include="src\" />
+    <Folder Include="tests\" />
+    <Folder Include="typings\" />
+    <Folder Include="typings\globals\" />
+    <Folder Include="typings\globals\node\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="dev-tools\bin\string.js" />
+    <Compile Include="dev-tools\build.js" />
+    <Compile Include="install.js" />
+    <Compile Include="src\dumps.js" />
+    <Compile Include="src\logs.js" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+</Project>
