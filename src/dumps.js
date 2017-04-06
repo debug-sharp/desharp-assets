@@ -11,7 +11,7 @@ Desharp = (function(
 	hiddenStr,		nodeNameStr,		parentNodeStr,	toLowerCaseStr,	overStr,			currentStr,
 	outStr,			clickStr,			outerWidthStr,	outerHeightStr, getInstanceStr,		resizeStr,
 	closeStr,		onbeforeunloadStr,	resizeToStr,	invisibleStr,	settingsKeyStr,		refreshTimeLimitStr,
-	keyupStr,		pxStr,				quotStr,
+	keyupStr,		pxStr,				spaceStr,		quotStr,
 	win,			doc,				locStore,		navigatorUserAgent,FALSE,			TRUE,				NULL
 ) {
 	var desharpStrLower = desharpStr[toLowerCaseStr]();
@@ -46,7 +46,6 @@ Desharp = (function(
     Desharp.CLICK_CSS_CLASS_BEGIN = "click click-";
     Desharp.DUMP_CSS_CLASS_BEGIN = "dump dump-";
     Desharp.HTML_CODE_CSS_CLASS = "html-code";
-    Desharp.INNER_PADDING = 4;
     Desharp[prototypeStr] = {
 		"BarIcons": function (iconsCfg) {
 			this._iconsCfg = iconsCfg;
@@ -533,7 +532,7 @@ Desharp = (function(
 						tdWidth = tableElmWidth - (tdElms[0][offsetWidthStr] + tdElms[1][offsetWidthStr] + 10);
 						tdElms[2][styleStr][widthStr] = tdWidth + pxStr;
 					};
-					Helpers.AddClass(tableElm, " " + nowrapClass);
+					Helpers.AddClass(tableElm, spaceStr + nowrapClass);
 					break;
 				}
 			}
@@ -553,7 +552,7 @@ Desharp = (function(
 				winElm, head, _close, unbox, body, inner,
 				cornerResizer, leftResizer, bottomResizer;
 			
-			winElm = elmFn(divStr, "win " + invisibleStr);
+			winElm = elmFn(divStr, "win " + scope._itemName + spaceStr + invisibleStr);
 			inner = elmFn(divStr, "inner");
 			head = elmFn(divStr, "head");
 			_close = elmFn(divStr, closeStr);
@@ -773,7 +772,7 @@ Desharp = (function(
 						+wrapNode("style", Helpers.GetDesharpStyleDeclaration())
 					)
 					+wrapNode(
-						"body", emptyStr, "desharp-unbox-win"
+						"body", emptyStr, "desharp-unbox-win " + scope._itemName
 					)
 				)
 			);
@@ -983,17 +982,15 @@ Desharp = (function(
 		},
 		_styleBoxedWindowSetSizes: function (w, h) {
 			var scope = this || {},
-				p = Desharp.INNER_PADDING,
-				p2 = p * 2,
                 winStyle = scope.WinElm[styleStr],
                 bodyStyle = scope._body[styleStr],
 				styleFn = Helpers.StyleElmProp;
             styleFn(winStyle, widthStr, w);
             styleFn(winStyle, heightStr, h);
             styleFn(scope._inner[styleStr], heightStr, h);
-            styleFn(scope._head[styleStr], widthStr, w - p2 + 2);
-            styleFn(bodyStyle, widthStr, w - p2 - 10/* 5 - body padding left and right*/);
-            styleFn(bodyStyle, heightStr, h - 9 - scope._headSize - p - 5/* 5 - body padding bottom*/);
+            styleFn(scope._head[styleStr], widthStr, w - 0 + 2);
+            styleFn(bodyStyle, widthStr, w - 8);
+            styleFn(bodyStyle, heightStr, h - 8 - scope._headSize);
 			return scope;
 		},
 		_styleBoxedWindowSetRightBottomPositions: function (right, bottom) {
@@ -1111,7 +1108,7 @@ Desharp = (function(
         },
         _getClickOrDumpEmlClassId: function (elm, cls, clsPos, clsBegin) {
             cls = cls[substrStr](clsPos);
-            clsPos = Helpers.IndexOf(cls, " ", clsBegin[lengthStr]);
+            clsPos = Helpers.IndexOf(cls, spaceStr, clsBegin[lengthStr]);
             return cls[substrStr](clsBegin[lengthStr], (clsPos > -1 ? clsPos : cls[lengthStr]) - clsBegin[lengthStr]);
         },
         _bodyClickHandler: function (srcElm) {
@@ -1551,6 +1548,6 @@ Desharp = (function(
 		" hidden|nodeName|parentNode|toLowerCase|over| current|"+
 		"out|click|outerWidth|outerHeight|GetInstance|resize|"+
 		"close|onbeforeunload|resizeTo|invisible|SETTINGS_KEY|"+
-		"REFRESH_TIME_LIMIT|keyup|px|" + String.fromCharCode(34)
+		"REFRESH_TIME_LIMIT|keyup|px| |" + String.fromCharCode(34)
 	).split("|").concat([window,document,window.localStorage,navigator.userAgent,false,true,null])
 );
