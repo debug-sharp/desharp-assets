@@ -347,6 +347,11 @@ Desharp = (function(
         scope._closingOriginWindowTimeout = 0;
         scope._screenContentDisplayed = FALSE;
     };
+    BarItem.Resizing = {
+    	status: FALSE,
+    	barItem: NULL,
+		resizerIndex: 0
+    };
     BarItem[prototypeStr] = {
     	InitBar: function () {
     		var scope = this || {};
@@ -598,15 +603,17 @@ Desharp = (function(
 			
 			// mouse over inner window brings current window into front between inner windows
 			addEventFn(scope.WinElm, mouseStr + overStr, function (e) {
-				scope._windowMouseOver = TRUE;
-                scope._desharp.SetBoxedWindowToFront(scope._barIndex, scope._itemName);
+				if (!BarItem._resizing) {
+					scope._windowMouseOver = TRUE;
+					scope._desharp.SetBoxedWindowToFront(scope._barIndex, scope._itemName);
+				}
             });
 			addEventFn(scope.WinElm, mouseStr + outStr, function (e) {
 				scope._windowMouseOver = FALSE;
                 scope._hideUnpinnedWindowIfNecessary();
             });
 				
-			// window head moving
+			// boxed window head moving
 			addEventFn(headElm, mouseDownStr, function (e) {
                 scope._headMouseDown = TRUE;
 				scope._pinBoxedWindow();
@@ -627,8 +634,9 @@ Desharp = (function(
                 scope._desharp.StoreWindowSettingsLocal(scope._barIndex, scope._itemName, settings, TRUE);
             });
 			
-			// window corner resizing
-            addEventFn(cornerResizer, mouseDownStr, function (e) {
+			// boxed window corner resizing
+			addEventFn(cornerResizer, mouseDownStr, function (e) {
+				scope._barBoxedWindowSetUpResizingStaticinfo(0);
                 scope._cornerResizerMouseDown = TRUE;
 				scope._pinBoxedWindow();
                 scope._moveAndResizeSizes = [ // mouse x, mouse y, window width, window height
@@ -645,17 +653,10 @@ Desharp = (function(
 				settings[3] = moveAndResizeSizes[3] - (moveAndResizeSizes[1] - e[pageYStr]);
 				scope._styleBoxedWindowSetSizes(settings[2], settings[3]);
 			});
-            addEventFn(cornerResizer, mouseUpStr, function () {
-				var winElm = scope.WinElm;
-                scope._cornerResizerMouseDown = FALSE;
-				settings[0] = -(winElm[offsetLeftStr] + winElm[offsetWidthStr]);
-				settings[1] = -(winElm[offsetTopStr] + winElm[offsetHeightStr]);
-				scope._styleBoxedWindowSetRightBottomPositions(settings[0], settings[1]);
-				scope._desharp.StoreWindowSettingsLocal(scope._barIndex, scope._itemName, settings, TRUE);
-            });
 			
-			// window left resizing
+			// boxed window left resizing
             addEventFn(leftResizer, mouseDownStr, function (e) {
+            	scope._barBoxedWindowSetUpResizingStaticinfo(1);
                 scope._leftResizerMouseDown = TRUE;
                 scope._pinBoxedWindow();
                 scope._moveAndResizeSizes[0] = e[pageXStr]; // mouse x
@@ -669,17 +670,10 @@ Desharp = (function(
 				settings[2] = moveAndResizeSizes[2] - (moveAndResizeSizes[0] - e[pageXStr]);
 				scope._styleBoxedWindowSetSizes(settings[2], settings[3]);
 			});
-            addEventFn(leftResizer, mouseUpStr, function () {
-				var winElm = scope.WinElm;
-                scope._leftResizerMouseDown = FALSE;
-				settings[0] = -(winElm[offsetLeftStr] + winElm[offsetWidthStr]);
-				settings[2] = winElm[offsetWidthStr];
-				scope._styleBoxedWindowSetRightBottomPositions(settings[0], settings[1]);
-				scope._desharp.StoreWindowSettingsLocal(scope._barIndex, scope._itemName, settings, TRUE);
-            });
 			
-			// window bottom resizing
+			// boxed window bottom resizing
             addEventFn(bottomResizer, mouseDownStr, function (e) {
+            	scope._barBoxedWindowSetUpResizingStaticinfo(2);
                 scope._bottomResizerMouseDown = TRUE;
                 scope._pinBoxedWindow();
                 scope._moveAndResizeSizes[1] = e[pageYStr]; // mouse y
@@ -693,16 +687,17 @@ Desharp = (function(
 				settings[3] = moveAndResizeSizes[3] - (moveAndResizeSizes[1] - e[pageYStr]);
 				scope._styleBoxedWindowSetSizes(settings[2], settings[3]);
 			});
-            addEventFn(bottomResizer, mouseUpStr, function () {
-				var winElm = scope.WinElm;
-                scope._bottomResizerMouseDown = FALSE;
-				settings[1] = -(winElm[offsetTopStr] + winElm[offsetHeightStr]);
-				settings[3] = winElm[offsetHeightStr];
-				scope._styleBoxedWindowSetRightBottomPositions(settings[0], settings[1]);
-				scope._desharp.StoreWindowSettingsLocal(scope._barIndex, scope._itemName, settings, TRUE);
-            });
 			
-			// body content dump click
+			// global window mouse up
+            addEventFn(doc, mouseUpStr, function (e) {
+            	var resizing = BarItem.Resizing;
+            	if (resizing.status) {
+            		resizing.barItem._barBoxedWindowResizerMouseUpHandler(resizing.resizerIndex);
+            		resizing.status = FALSE;
+            	}
+            });
+
+			// boxed window body content dump click
             addEventFn(scope._body, clickStr, function (e) {
                 scope._bodyClickHandler(e[targetStr]);
             });
@@ -782,6 +777,29 @@ Desharp = (function(
 			scope.WinElm[desharpStr][getInstanceStr]().RenderWindow(
 				scope._barIndex, scope._itemName, scope._content
 			);
+		},
+		_barBoxedWindowSetUpResizingStaticinfo: function (resizerIndex) {
+			var scope = this || {},
+				resizing = BarItem.Resizing;
+			resizing.status = TRUE;
+			resizing.barItem = scope;
+			resizing.resizerIndex = resizerIndex;
+			scope._desharp.SetBoxedWindowToFront(scope._barIndex, scope._itemName);
+		},
+		_barBoxedWindowResizerMouseUpHandler: function (index) {
+			var scope = this || {},
+				winElm = scope.WinElm,
+				settings = scope._settings;
+			BarItem.Resizing.status = FALSE;
+			scope._cornerResizerMouseDown = FALSE;
+			scope._leftResizerMouseDown = FALSE;
+			scope._bottomResizerMouseDown = FALSE;
+			if (index < 2) settings[0] = -(winElm[offsetLeftStr] + winElm[offsetWidthStr]);
+			if (index != 1) settings[1] = -(winElm[offsetTopStr] + winElm[offsetHeightStr]);
+			if (index == 1) settings[2] = winElm[offsetWidthStr];
+			if (index == 2) settings[3] = winElm[offsetHeightStr];
+			scope._styleBoxedWindowSetRightBottomPositions(settings[0], settings[1]);
+			scope._desharp.StoreWindowSettingsLocal(scope._barIndex, scope._itemName, settings, TRUE);
 		},
 		_initWindowElms: function () {
 			var scope = this || {},

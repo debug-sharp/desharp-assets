@@ -18,7 +18,6 @@
 .desharp-unbox-win{overflow:auto;color:#000;}
 #desharp .win .body{position:relative;border-bottom-left-radius:3px;border-bottom-right-radius:3px;font-size:18px;top:4px;left:4px;#border:1px solid #ccc;#top:3px;#left:3px;/*ie7-*/}
 #desharp .win.dumps .body,
-#desharp .win.routing .body,
 #desharp .win .body .inset,
 .desharp-unbox-win .inset{-moz-box-shadow:0px 1px 5px rgba(0,0,0,0.3) inset, 0px 0px 1px rgba(0,0,0,0.3) inset;-khtml-box-shadow:0px 1px 5px rgba(0,0,0,0.3) inset, 0px 0px 1px rgba(0,0,0,0.3) inset;-opera-box-shadow:0px 1px 5px rgba(0,0,0,0.3) inset, 0px 0px 1px rgba(0,0,0,0.3) inset;-ms-box-shadow:0px 1px 5px rgba(0,0,0,0.3) inset, 0px 0px 1px rgba(0,0,0,0.3) inset;-webkit-box-shadow:0px 1px 5px rgba(0,0,0,0.3) inset, 0px 0px 1px rgba(0,0,0,0.3) inset;box-shadow:0px 1px 5px rgba(0,0,0,0.3) inset, 0px 0px 1px rgba(0,0,0,0.3) inset;}
 @media all\0{/*ie8*/#desharp .win .body{#border:1px solid #ccc;#top:3px;#left:3px;}}
