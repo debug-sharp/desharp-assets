@@ -1137,6 +1137,11 @@ Desharp = (function(
 				clsPos = indexOf(cls, clsBegin),
 				dumpElms = [],
 				dumpElm = {};
+            if (clsPos == -1 && srcElm[nodeNameStr][toLowerCaseStr]() == 'i' && indexOf(srcElm[parentNodeStr][classNameStr], clsBegin) > -1) {
+            	srcElm = srcElm[parentNodeStr];
+            	cls = srcElm[classNameStr];
+            	clsPos = indexOf(cls, clsBegin);
+            }
             if (clsPos > -1) {
                 dumpElms = scope._dumpDivs[scope._getClickOrDumpEmlClassId(srcElm, cls, clsPos, clsBegin)];
                 clsBegin = Desharp.OPENED_CSS_CLASS;
