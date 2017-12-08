@@ -326,7 +326,13 @@ Desharp = (function(
     	var scope = this||{};
 		scope.WinElm = NULL;
 		scope.BarElm = NULL;
-		scope.Title = title;
+		if (typeof title != "string" && title["length"] == 2) {
+			scope.Title = title[0];
+			scope._windowTitle = title[1];
+		} else {
+			scope.Title = title;
+			scope._windowTitle = title;
+		}
 		scope._desharp = desharp;
 		scope._barIndex = barIndex;
 		scope._itemName = itemName;
@@ -567,7 +573,7 @@ Desharp = (function(
 			leftResizer = elmFn(divStr, "left");
 			bottomResizer = elmFn(divStr, "bottom");
 			
-			head[innerHTMLStr] = scope.Title;
+			head[innerHTMLStr] = scope._windowTitle;
 			body[innerHTMLStr] = scope._content;
 			
 			_close = appendFn(head, _close);
