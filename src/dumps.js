@@ -11,7 +11,7 @@ Desharp = (function(
 	hiddenStr,		nodeNameStr,		parentNodeStr,	toLowerCaseStr,	overStr,			currentStr,
 	outStr,			clickStr,			outerWidthStr,	outerHeightStr, getInstanceStr,		resizeStr,
 	closeStr,		onbeforeunloadStr,	resizeToStr,	invisibleStr,	settingsKeyStr,		refreshTimeLimitStr,
-	keyupStr,		pxStr,				spaceStr,		quotStr,
+	keyupStr,		pxStr,				spaceStr,		documentStr,    titleStr,           headStr,            quotStr,
 	win,			doc,				locStore,		navigatorUserAgent,FALSE,			TRUE,				NULL
 ) {
 	var desharpStrLower = desharpStr[toLowerCaseStr]();
@@ -60,25 +60,26 @@ Desharp = (function(
 				newBarCollection = {},
 				newBarCollectionIndex = scope._bars[lengthStr],
 				nameStr = "name",
+                modeStr = "mode",
 				barItemName = nameStr+(Desharp._barItemNameCounter++),
 				contentArr = [],
 				cfg;
 			newBarCollection[barItemName] = new BarItem(
 				scope, newBarCollectionIndex, barItemName, 
 				newBarCollectionIndex > 0 ? "redirect" : "DESHARP", 
-				[classStr, "title"], 0, emptyStr, []
+				[classStr, titleStr], 0, emptyStr, []
 			);
 			for (var i = 0, l = barItemsCfg[lengthStr]; i < l; i += 1) {
 				cfg = barItemsCfg[i];
-				barItemName = cfg["name"] || nameStr+(Desharp._barItemNameCounter++);
+				barItemName = cfg[nameStr] || nameStr+(Desharp._barItemNameCounter++);
 				newBarCollection[barItemName] = new BarItem(
 					// desharp, barIndex, itemName, title, icon, mode, content, settings
 					scope,
 					newBarCollectionIndex,
 					barItemName, 
-					cfg["title"] || emptyStr, 
+					cfg[titleStr] || emptyStr, 
 					scope._iconsCfg[barItemName] || [],
-					typeof(cfg["mode"]) != undefinedStr ? cfg["mode"] : 2,
+					typeof(cfg[modeStr]) != undefinedStr ? cfg[modeStr] : 2,
 					cfg["content"] || emptyStr,
 					scope._getWindowsSettings(newBarCollectionIndex, barItemName)
 				);
@@ -512,7 +513,7 @@ Desharp = (function(
 				displayContentDirectly = FALSE,
 				winElm;
 			if (Helpers.IndexOf(scope._content, '>Catched: no') > -1) displayContentDirectly = TRUE;
-			winElm = elmFn(divStr, "screen " + invisibleStr);
+			winElm = elmFn(divStr, desharpStrLower + "-screen " + invisibleStr);
 			winElm[innerHTMLStr] = scope._content;
 			scope.WinElm = winElm;
 			if (displayContentDirectly) Helpers.AddClass(scope.BarElm, currentStr);
@@ -565,7 +566,7 @@ Desharp = (function(
 			
 			winElm = elmFn(divStr, "win " + scope._itemName + spaceStr + invisibleStr);
 			inner = elmFn(divStr, "inner");
-			head = elmFn(divStr, "head");
+			head = elmFn(divStr, headStr);
 			_close = elmFn(divStr, closeStr);
 			unbox = elmFn(divStr, "unbox");
 			body = elmFn(divStr, bodyStr);
@@ -759,18 +760,18 @@ Desharp = (function(
 		},
 		_initBarUnboxedWindowWriteFirstTimeBaseContent: function () {
 			var scope = this || {},
-				unboxedDoc = scope.WinElm["document"],
+				unboxedDoc = scope.WinElm[documentStr],
 				wrapNode = Helpers.WrapNode;
 			unboxedDoc["write"](
 				"<!DOCTYPE html>"
 				+wrapNode(
 					"html",
 					wrapNode(
-						"head",
+						headStr,
 						"<meta charset="+quotStr+"utf-8"+quotStr+"/>"
-						+wrapNode("title", scope.Title)
+						+wrapNode(titleStr, scope.Title)
 						+wrapNode("script", Helpers.GetRunningCodeJsDeclaration())
-						+wrapNode("style", Helpers.GetDesharpStyleDeclaration())
+						+wrapNode(styleStr, Helpers.GetDesharpStyleDeclaration())
 					)
 					+wrapNode(
 						"body", emptyStr, "desharp-unbox-win " + scope._itemName
@@ -921,7 +922,7 @@ Desharp = (function(
 			if (showContent) {
 				removeClsFn(winElm, hiddenStr);
 				addClsFn(barElm, currentStr);
-				addClsFn(docBody, desharpScreenCls);
+				addClsFn(docBody, spaceStr + desharpScreenCls);
 			} else {
 				addClsFn(winElm, hiddenStr);
 				removeClsFn(barElm, currentStr);
@@ -1393,7 +1394,8 @@ Desharp = (function(
                 newCookieRawValue = emptyStr,
                 explDomain = [],
                 domain = emptyStr,
-				hostname = location["hostname"];
+				hostname = location["hostname"],
+                domainStr = "; domain=";
     		exdays = exdays || 365;
     		exdate.setDate(exdate.getDate() + exdays);
     		newCookieRawValue = name + "=" + encodeURIComponent(value);
@@ -1403,9 +1405,9 @@ Desharp = (function(
     		if (explDomain[lengthStr] == 3) {
     			explDomain[0] = emptyStr;
     			domain = explDomain[joinStr](".");
-    			newCookieRawValue += "; domain=" + domain;
+    			newCookieRawValue += domainStr + domain;
     		} else {
-    			newCookieRawValue += "; domain=" + hostname;
+    			newCookieRawValue += domainStr + hostname;
     		}
     		if (exdays) {
     			newCookieRawValue += "; expires=" + exdate.toUTCString();
@@ -1422,7 +1424,7 @@ Desharp = (function(
     			w = winParam[innerWidthStr];
     			h = winParam[innerHeightStr]
     		} else {
-    			docLocal = winParam["document"];
+    			docLocal = winParam[documentStr];
     			docElm = docLocal[documentElementStr];
     			if (
 					typeof (docElm) != undefinedStr &&
@@ -1445,7 +1447,7 @@ Desharp = (function(
     			w = winParam[outerWidthStr];
     			h = winParam[outerHeightStr]
     		} else {
-    			docLocal = winParam["document"];
+    			docLocal = winParam[documentStr];
     			docElm = docLocal[documentElementStr];
     			if (
 					typeof (docElm) != undefinedStr &&
@@ -1498,10 +1500,10 @@ Desharp = (function(
     		var appArgs = this._runningCodeArgs;
     		return "var " + desharpStr + "=(" + this._runningCodeBody.toString() + ")(" + quotStr
 				+ appArgs.slice(0, appArgs[lengthStr] - 8).join(quotStr + "," + quotStr)
-				+ quotStr + ","+quotStr+"\\u0022"+quotStr+",window,document,window.localStorage,navigator.userAgent,false,true,null);";
+				+ quotStr + ","+quotStr+"\\u0022"+quotStr+",window,"+documentStr+",window.localStorage,navigator.userAgent,false,true,null);";
     	},
     	GetDesharpStyleDeclaration: function () {
-    		var styles = doc[getElementsByTagNameStr]("style"),
+    		var styles = doc[getElementsByTagNameStr](styleStr),
     			styleContent = emptyStr,
     			result = emptyStr,
 				char = String.fromCharCode,
@@ -1577,6 +1579,6 @@ Desharp = (function(
 		" hidden|nodeName|parentNode|toLowerCase|over| current|"+
 		"out|click|outerWidth|outerHeight|GetInstance|resize|"+
 		"close|onbeforeunload|resizeTo|invisible|SETTINGS_KEY|"+
-		"REFRESH_TIME_LIMIT|keyup|px| |" + String.fromCharCode(34)
+		"REFRESH_TIME_LIMIT|keyup|px| |document|title|head|" + String.fromCharCode(34)
 	).split("|").concat([window,document,window.localStorage,navigator.userAgent,false,true,null])
 );

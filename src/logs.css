@@ -6,8 +6,7 @@ body{margin:0;padding:5px;}
 .record .control{padding:3px 10px;cursor:pointer;}
 .record .control:hover,.record .control:focus{background:#d8d8d8;}
 .record .control:hover .desharp-dump .click,.record .control:focus .desharp-dump .click{border-bottom:1px solid #999 !important;}
-#desharp-mail .record .control:hover .desharp-dump .click,#desharp-mail .record .control:focus .desharp-dump .click{border-bottom:0 !important;}
-#desharp-mail .record .control:hover .desharp-dump .click,#desharp-mail .record .control:focus .desharp-dump .click{border-bottom:none;}
+#desharp-mail .record .control:hover .desharp-dump .click,#desharp-mail .record .control:focus .desharp-dump .click{border-bottom:0 !important;border-bottom:none;}
 .control .date,.control .catched,.control .process,.control .request,.control .thread,.control div.type{color:#666;display:inline-block;white-space:nowrap;margin:0 0 0 20px;}
 .control .date{padding-top:2px;margin:0;}
 #desharp-mail .control .date{padding-top:0;}

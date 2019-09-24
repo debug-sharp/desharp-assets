@@ -10,9 +10,10 @@
 #desharp .win *,
 .desharp-unbox-win,
 .desharp-unbox-win *,
-#desharp .screen,
-#desharp .screen *,
-.desharp-dump,.desharp-dump *{font-family:'Consolas',courier new !important;font-weight:bold;}
+.desharp-screen,
+.desharp-screen *,
+.desharp-dump,
+.desharp-dump *{font-family:'Consolas',courier new !important;font-weight:bold;}
 #desharp .bars{position:fixed;z-index:9999994;right:0;bottom:0;border:1px solid #c9c9c9;background:#edeae0;opacity:.9;transition:opacity 0.2s;will-change:opacity,right,bottom;-moz-border-radius:3px;-khtml-border-radius:3px;-opera-border-radius:3px;-ms-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;box-shadow:1px 1px 10px rgba(0,0,0,.15);cursor:move;}
 #desharp .bar{overflow:hidden;opacity:.6;}
 #desharp .current{opacity:1 !important;}
