@@ -20,10 +20,13 @@ var prettyPrint = false;
 // if not - complete javaPath variable including java.exe with standard slashes - not backslashes
 
 // get java path stored by install script
-var javaPath = fs.readFileSync(
-	__dirname + path.sep + 'bin' + path.sep + 'java-home.json', 
-	{encoding: 'utf-8', flag: 'r'}
-).toString().trim('"');
+var javaPath = "";
+if (fs.existsSync(path)) {
+	javaPath = fs.readFileSync(
+		__dirname + path.sep + 'bin' + path.sep + 'java-home.json', 
+		{encoding: 'utf-8', flag: 'r'}
+	).toString().trim('"');
+}
 
 var tmpSrcFile = 'tmp.src.js';
 var tmpMinFile = 'tmp.min.js';

@@ -1,4 +1,4 @@
-Desharp = (function (
+window['Desharp'] = (function (
 	clickStr,			openedStr,			bodyStr,		divStr,			initializedStr,	controlStr,
 	undefinedStr,		idStr,				callstackStr,	tableStr,		titleStr,		trStr,
 	fileStr,			tdStr,				lineStr,		methodStr,		bStr,			requestIdStr,
@@ -219,6 +219,7 @@ Desharp = (function (
 				wrapNode = Helpers.WrapNode,
 				callstackItem = {},
 				file = [],
+				line = "",
 				fileCellContent = emptyStr,
 				tableRows = emptyStr;
 			for (var i = 0, l = callstackData[lengthStr]; i < l; i++) {

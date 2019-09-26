@@ -1,4 +1,4 @@
-Desharp = (function(
+window['Desharp'] = (function(
 	desharpStr,		cookieStr,			divStr,			spanStr,		mouseStr,			scrollTopStr,
 	scrollLeftStr,	cookieDelimiterStr,	widthStr,		heightStr,		onStr,				getElementsByTagNameStr, 
 	classNameStr,	lengthStr,			innerHTMLStr,	styleStr,		substrStr,			substringStr,
@@ -298,7 +298,7 @@ Desharp = (function(
 		_windowResizeHandler: function () {
 			var scope = this || {},
 				viewPort = Helpers.GetViewPortSizes(win);
-			for (i = 0, l = scope._barsWithWindows[lengthStr]; i < l; i += 1) {
+			for (var i = 0, l = scope._barsWithWindows[lengthStr]; i < l; i += 1) {
 				scope._barsWithWindows[i].WindowResizeHandler(viewPort);
 			}
 			scope._storeSettings(TRUE);
@@ -1119,7 +1119,7 @@ Desharp = (function(
             	firstDivs[pushStr](elm);
             });
             if (firstDivs[lengthStr] > 8) return;
-            for (i = 0, l = firstDivs[lengthStr]; i < l; i += 1) {
+            for (var i = 0, l = firstDivs[lengthStr]; i < l; i += 1) {
                 firstSpans = firstDivs[i][getElementsByTagNameStr](spanStr);
                 for (var j = 0, k = firstSpans[lengthStr]; j < k; j += 1) {
                     elm = firstSpans[j];
